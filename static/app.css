@@ -1,0 +1,90 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+}
+
+body{
+    background-color:whitesmoke;
+    margin: 0 2rem;
+}
+
+#header{
+    width: 100%;
+    height: 4rem;
+    background-color: rgb(255, 255, 255);
+    display: flex;
+    flex-direction: row;    
+    padding: 10px;
+    align-items: center;    
+    position: sticky;
+    top: 0;
+    border-bottom: 1px solid rgb(78, 145, 162);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.25);
+}
+
+.logo{
+    width: 20%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+}
+.logo a{
+    text-decoration: none;
+    color: rgb(23, 89, 133);
+}
+.search{
+    width: 50%;
+    height: 100%;
+    
+}
+.search-item{
+    width: 98%;
+    height: 98%;
+    display: flex;
+    justify-content: center;
+    flex-direction: row;
+    border-radius: 50px;
+    border: 1px solid #ebebeb;
+}
+.search-item input{
+    width: 80%;
+    border: none;    
+    height: 40px;
+    border-radius: 50px 0 0 50px;
+    padding-left:  10px;
+    outline: none;
+}
+.search-item button{
+    width: 20%;
+    border: none;   
+    height: 40px; 
+    border-radius: 0 50px 50px 0;
+    cursor: pointer;
+    
+}
+.search-item-img{
+    width: 30px;
+    height:30px;
+}
+
+.user-details{
+    width: 20%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    padding-right: 10px;
+}
+.cart{
+    width: 10%;
+    height: 100%;
+    display: flex;
+    flex-direction: row;    
+    align-items: center;
+}
+.cart img{
+    width: 25px;
+    height: 25px;
+}
