@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block css_files %}
+<link rel="stylesheet" href="{% static 'store/index.css' %}">
+{% endblock css_files %}
+
+{% block title %}
+Home
+{% endblock title %}
+
+{% block content %}
+<section id="product-list">
+    {% for item in product %}
+        <div class="product">
+            <img src="{{item.image.url}}">
+            <div class="product-description">        
+                <h4>{{item.name}}</h4>
+                <p>Price : &#8377;{{item.price|floatformat:2}}</p>
+                <p>Units Available : {{item.total_units}}</p>
+            </div>
+            <div class="product-buy">
+                <button class="add-to-cart">Add To Cart</button>
+                <button class="buy-now">Buy Now</button>
+            </div>
+        </div>       
+    {% endfor %}
+</section>
+{% endblock content %}
