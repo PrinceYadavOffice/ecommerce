@@ -1,0 +1,23 @@
+{% load static %}
+<section id="header">
+    <div class="logo">
+        <h2><a href="{% url 'home' %}">Online Shopping</a></h2>
+    </div>
+    <div class="search">
+        <form>
+           <div class="search-item"> 
+                <input type="text" placeholder="Search item">
+                <button type="submit"><img class="search-item-img" src="{% static 'images/search.png' %}"></button>
+           </div> 
+        <form>
+    </div>
+    <div class="user-details">
+        USER_NAME
+    </div>
+    <div class="cart">
+        <img src="{% static 'images/cart.png' %}">
+        <div class="cart-details">
+        0
+        </div>
+    </div>    
+</section>
