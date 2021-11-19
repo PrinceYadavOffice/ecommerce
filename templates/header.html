@@ -4,20 +4,34 @@
         <h2><a href="{% url 'home' %}">Online Shopping</a></h2>
     </div>
     <div class="search">
-        <form>
+        <form method="POST">
+            {% csrf_token %}
            <div class="search-item"> 
-                <input type="text" placeholder="Search item">
+                <input type="text" placeholder="Search item" name="searchItem">
                 <button type="submit"><img class="search-item-img" src="{% static 'images/search.png' %}"></button>
            </div> 
         <form>
     </div>
-    <div class="user-details">
-        USER_NAME
-    </div>
-    <div class="cart">
-        <img src="{% static 'images/cart.png' %}">
-        <div class="cart-details">
-        0
+    {% if user.is_authenticated %}
+        <div class="user-details">
+          <a href="{% url 'user-profile' %}">
+            {{user.username|title}}
+          </a>  
         </div>
-    </div>    
+        <div class="cart">
+            <a href="{% url 'cart' %}">
+                <img src="{% static 'images/cart.png' %}">
+            </a>
+        </div>
+        <div class="log-out">
+            <a class="button" href="{% url 'logout' %}">Logout</a>
+        </div>  
+    {% else %}     
+        <div class="log-in-out">
+            <a class="button" href="{% url 'login' %}">Login</a>
+            <a class="button" href="{% url 'register' %}">Register</a>
+        </div>
+    {% endif %}
+    
+
 </section>

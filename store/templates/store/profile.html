@@ -1,8 +1,28 @@
 {% extends 'base.html' %}
+{% load static %}
 {% block title %}
-User_Name
+Online Shopping |{{user.username}}
 {% endblock title %}
+{% block css_files %}
+<link rel="stylesheet" href="{% static 'store/css/profile.css' %}">
+{% endblock css_files %}
+
 
 {% block content %}
-<h1>Profile</h1>
+<section id="order-list">
+    <div class="list-head">
+        <div>Order id</div>
+        <div>Product Name</div>
+        <div>Quantity</div>
+        <div>Order date</div>
+    </div>    
+     {% for item in items %} 
+        <div class="list-body">
+            <div>{{item.order}}</div>
+            <div>{{item.product}}</div>
+            <div>{{item.quantity}}</div>
+            <div>{{item.order.date_orderd}}</div>
+        </div>        
+    {% endfor %}
+</section>
 {% endblock content %}

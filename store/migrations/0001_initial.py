@@ -18,6 +18,7 @@ class Migration(migrations.Migration):
                 ('name', models.CharField(max_length=100)),
                 ('type', models.CharField(max_length=50)),
                 ('image', models.ImageField(null=True, upload_to='products_img')),
+                ('slug' ,models.SlugField(unique=True, db_index=True)),
                 ('total_units', models.IntegerField()),
                 ('price', models.FloatField()),
             ],

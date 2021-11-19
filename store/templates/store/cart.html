@@ -1,8 +1,49 @@
 {% extends 'base.html' %}
+{% load static %}
 {% block title %}
 Cart
 {% endblock title %}
 
+{% block css_files %}
+<link rel="stylesheet" href="{% static 'store/css/cart.css' %}">
+{% endblock css_files %}
+
+
 {% block content %}
-<h1>Cart</h1>
+<section id="shopping-cart">
+    <div class="cart-header">
+            <div>Product</div>
+            <div>Name</div>
+            <div>Quantity</div>
+            <div>Remove</div>
+            <div>Unit Price</div>
+            <div>Price</div>
+    </div>
+   
+    <div class="cart-details">
+    {% for item in items %}
+        
+        <div class="cart-list">
+            <div><img src="{{item.product.image.url}}"></div>
+            <div>{{item.product}}</div>
+            <div>
+                {{item.quantity}}
+                <div class="add-remove">
+                    <img data-product="{{item.product.id}}" data-action="add" class="update-cart" src="{% static 'images/arrowup.png' %}">
+                    <img data-product="{{item.product.id}}" data-action="remove" class="update-cart" src="{% static 'images/arrowdown.png' %}">
+                </div>
+            
+            </div>
+            <div><button data-product="{{item.product.id}}" data-action="delete" class="update-cart delButton">Remove</button></div>
+            <div>{{item.product.price}}</div>
+            <div>{{item.get_total}}</div>
+        </div>
+    {% endfor %}              
+    </div>
+    <div class="cart-footer">
+        <a href="{% url 'home' %}">Continue Shopping</a>
+        <a href="{% url 'checkout' %}">Checkout</a>
+
+    </div>
+</section>
 {% endblock content %}

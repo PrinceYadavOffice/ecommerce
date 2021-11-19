@@ -1,0 +1,15 @@
+
+    <div class="product">
+    <a href="{% url 'product_detail' item.slug%}">
+        <img src="{{item.image.url}}">
+    </a>       
+        <div class="product-description">        
+            <h4>{{item.name}}</h4>
+            <p>Price : &#8377;{{item.price|floatformat:2}}</p>
+            <p>Units Available : {{item.total_units}}</p>
+        </div>
+        <div class="product-buy">
+            <button data-product="{{item.id}}" data-action="add" class="add-to-cart update-cart">Add To Cart</button>
+            
+        </div>
+    </div>    

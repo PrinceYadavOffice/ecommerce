@@ -1,8 +1,42 @@
 {% extends 'base.html' %}
+{% load static %}
 {% block title %}
 Checkout
 {% endblock title %}
 
+{% block css_files %}
+<link rel="stylesheet" href="{% static 'store/css/checkout.css' %}">
+{% endblock css_files %}
+
 {% block content %}
-<h1>Checkout</h1>
+<section id="checkout">
+    <div class="address">
+        <div class="address-head">
+            <h2>Shipping Address</h2>
+        </div>
+        <div class="address-main">
+            <p>h.no 1913, Ground Floor, Sector - 55, Faridabad, Haryana, Pin - 121004</p>
+            <a href="#">Place Order</a>
+        </div>
+    </div>
+    <div class="order-details">
+        <div class="order-head">
+            <h2>Your Orders</h2>
+            <h4>{{order.get_items_total}} Items, &#8377; {{order.get_cart_total|floatformat:2}}</h4>
+        </div>
+        <div class="order-main">
+        {% for item in items %}
+            <div class="details-order">
+                <div>{{item.quantity}} x {{item.product}}</div>
+                <div>&#8377; {{item.get_total}}</div>
+            </div>
+        {% endfor %}    
+            <div class="cart-total">
+                <h4>Total</h4>
+                <h4>&#8377; {{order.get_cart_total|floatformat:2}}</h4>
+            </div>
+        </div>
+    </div>
+    
+</section>
 {% endblock content %}

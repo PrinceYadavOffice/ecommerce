@@ -77,6 +77,12 @@ body{
     justify-content: flex-end;
     padding-right: 10px;
 }
+.user-details a{
+    text-decoration: none;
+    color: rgb(23, 89, 133);
+    font-size: 1.3rem;
+    font-weight:400;
+}
 .cart{
     width: 10%;
     height: 100%;
@@ -87,4 +93,35 @@ body{
 .cart img{
     width: 25px;
     height: 25px;
+}
+.log-in-out{    
+    width: 20%;
+}
+.log-in-out a{
+    text-decoration: none;
+    color: rgb(23, 89, 133);       
+}
+.log-in-out a:hover{
+    
+    color:white;       
+}
+
+.button{
+    padding: 10px;
+    border: 1px solid rgb(23, 89, 133);
+    background-color: white;  
+    cursor: pointer;  
+}
+.button:hover{
+    background-color: rgb(23, 89, 133);
+    
+}
+
+.log-out a{
+    text-decoration: none;
+    color: rgb(23, 89, 133);    
+}
+.log-out a:hover{
+    
+    color: rgb(255, 255, 255);    
 }
