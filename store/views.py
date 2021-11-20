@@ -1,6 +1,7 @@
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
 from django.http import JsonResponse
+from django.http.response import HttpResponse
 from django.shortcuts import redirect, render
 from django.urls import reverse
 from .models import *
@@ -33,7 +34,7 @@ def index(request):
 def profile(request):
     items=[]
     customer = request.user.customer
-    orders = Order.objects.all().filter(customer=customer)     
+    orders = Order.objects.all().filter(customer=customer, complete=True)     
     for order in orders:
         for item in order.cartitems_set.all():
             items.append(item)   
@@ -45,7 +46,7 @@ def profile(request):
 @login_required(login_url='/login')
 def checkout(request):
     customer = request.user.customer
-    order = Order.objects.get(customer=customer)    
+    order = Order.objects.get(customer=customer, complete=False)    
     items = order.cartitems_set.all()
     context={
         'items':items,
@@ -54,11 +55,24 @@ def checkout(request):
     return render(request, 'store/checkout.html', context)
 
 @login_required(login_url='/login')
+def placeOrder(request, id):
+    customer = request.user.customer
+    order = Order.objects.get(customer=customer,id=id)
+    order.complete = True
+    order.save()
+    return HttpResponse(f"<h1>Thank You your order id is {id}")
+
+@login_required(login_url='/login')
 def cart(request):
     customer = request.user.customer
-    order = Order.objects.get(customer=customer)
-    items = order.cartitems_set.all()
-    #items=[]
+    try:
+        order = Order.objects.get(customer=customer, complete=False) 
+        items = order.cartitems_set.all()  
+    except:
+        items =[]   
+    
+    # print(items)
+    
     context ={
         'items':items
     }
@@ -101,7 +115,7 @@ def user_logout(request):
 
 
 def product_detail(request, slug):
-    form = SetquantityForm()    
+       
     product = Product.objects.get(slug=slug)    
     status = "Available"
     if product.total_units < 1 :
@@ -121,20 +135,28 @@ def updateItem(request):
     print('ProductId: ',productId, 'action: ',action)
 
     customer = request.user.customer
+    print("test 2 pass")
     product = Product.objects.get(id=productId)
-    order, created = Order.objects.get_or_create(customer=customer)
-    cartItem, created = CartItems.objects.get_or_create(order=order,product=product)
+    print("test 3 pass")
+    try:
+        order = Order.objects.get(customer=customer, complete=False)
+    except:
+        order = Order.objects.create(customer=customer)   
+    
+    print("test 4 pass order id: ",order)
+    cartItem = CartItems.objects.get_or_create(order=order,product=product)
+    print("test 5 pass cartitems: ", cartItem)
 
-    if action == 'add' and cartItem.quantity < product.total_units:
-        cartItem.quantity = (cartItem.quantity + 1)
+    if action == 'add' and cartItem[0].quantity < product.total_units:
+        cartItem[0].quantity = (cartItem[0].quantity + 1)
     elif action == 'remove':
-        cartItem.quantity = (cartItem.quantity -1)       
+        cartItem[0].quantity = (cartItem[0].quantity -1)       
 
-    cartItem.save() 
+    cartItem[0].save() 
 
-    if cartItem.quantity <=0:
-        cartItem.delete()  
+    if cartItem[0].quantity <=0:
+        cartItem[0].delete()  
     elif action == 'delete':
-        cartItem.delete()      
+        cartItem[0].delete()      
 
     return JsonResponse('Item was added', safe=False)

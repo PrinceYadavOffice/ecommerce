@@ -26,6 +26,7 @@ class Product(models.Model):
 class Order(models.Model):
     customer = models.ForeignKey(Customer, on_delete=models.SET_NULL, blank=True, null=True)
     date_orderd = models.DateTimeField(auto_now_add=True)
+    complete = models.BooleanField(default=False)
 
     def __str__(self):
         return str(self.id)
@@ -52,6 +53,9 @@ class CartItems(models.Model):
     def get_total(self):
         total = self.product.price * self.quantity
         return total
+    
+    def __str__(self):
+        return str(self.id)
     
 
 
