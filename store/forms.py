@@ -3,22 +3,11 @@ from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 from django.core.exceptions import ValidationError
 from django.forms import fields
-from .models import Customer, Product
-
-class SetquantityForm(forms.Form):    
-    quantity = forms.CharField(widget=forms.NumberInput(
-        attrs={
-            'min':1,            
-            'value':1,
-            'max':5
-        }
-    ))
-
-    
+from .models import Customer, Product    
    
 
 class LoginForm(forms.Form):
-    username = forms.CharField()
+    email = forms.EmailField()
     password = forms.CharField(
         widget=forms.PasswordInput
     )     

@@ -9,7 +9,7 @@
 }
 
 .product{
-    width: 260px;
+    min-width: 260px;
     height: fit-content;
     background-color: rgb(255, 255, 255);
     border-radius: 10px;
@@ -87,4 +87,8 @@
     border: .5px solid rgb(23, 89, 133);
     margin: 1.5px;
     color: #1f5985;
+} 
+.filter-option a:hover{
+    color: #ffff;
+    background-color: rgb(23, 89, 133);
 } 

@@ -28,7 +28,7 @@
 }
 .list-body div{
     width: 25%;
-    height: fit-content;
+    height: auto;
     align-items: center;
     text-align: center;    
     border-bottom: .5px solid royalblue;
