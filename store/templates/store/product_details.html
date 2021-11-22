@@ -26,10 +26,11 @@
             <p class="product-price">&#8377; {{product.price|floatformat:2}}</p>
             <p>Status : {{status}}</p>
         </div>
-        
+        {% if product.total_units %}
         <div class="product_buttons">   
             <button data-product="{{product.id}}" data-action="add" class="update-cart">Add To Cart</button>   
         </div>
+        {% endif %}
     </div>
     
 </section>

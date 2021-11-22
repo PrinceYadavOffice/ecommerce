@@ -10,7 +10,13 @@ Home
 {% endblock title %}
 
 {% block content %}
-<section id="product-list">
+
+<div class="filter-option">
+        Filter by: 
+        <a href="{% url 'filter' "name" %}">Name</a>
+        <a href="{% url 'filter' "price" %}">Price</a>
+</div>
+<section id="product-list">    
     {% for item in product %}
         {% include 'store/includes/product.html' %}        
     {% endfor %}

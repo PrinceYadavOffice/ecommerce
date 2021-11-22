@@ -15,7 +15,7 @@ Checkout
             <h2>Shipping Address</h2>
         </div>
         <div class="address-main">
-            <p>h.no 1913, Ground Floor, Sector - 55, Faridabad, Haryana, Pin - 121004</p>
+            <p>{{order.customer.get_complete_address}}</p>
             <a href="{% url 'placeorder' order.id %}">Place Order</a>
         </div>
     </div>

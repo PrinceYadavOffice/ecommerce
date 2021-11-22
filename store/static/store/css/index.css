@@ -64,3 +64,27 @@
     background-color: rgb(204, 237, 223);
 }
 
+.filter-option{
+    margin-top: 1.5rem;
+    width: fit-content;
+    height: fit-content;
+    background-color: white;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+    align-items: baseline;
+    padding: 10px;
+    float: right;
+    border-radius: 5px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.25);
+}
+
+.filter-option a{
+    text-decoration: none;
+    width: fit-content;
+    height: auto;
+    padding: 5px;
+    border: .5px solid rgb(23, 89, 133);
+    margin: 1.5px;
+    color: #1f5985;
+} 

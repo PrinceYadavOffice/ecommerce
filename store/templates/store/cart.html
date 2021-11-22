@@ -43,8 +43,9 @@ Cart
     
     <div class="cart-footer">
         <a href="{% url 'home' %}">Continue Shopping</a>
-        <a href="{% url 'checkout' %}">Checkout</a>
-
+        {% if items %}
+         <a href="{% url 'checkout' %}">Checkout</a>
+        {% endif %}
     </div>
    
     

@@ -9,6 +9,11 @@ class Customer(models.Model):
 
     def __str__(self):
         return str(self.user)
+    @property
+    def get_complete_address(self):
+        completeAddress = f"{self.user}, {self.address}"
+        return completeAddress
+
         
 
 class Product(models.Model):
@@ -25,7 +30,7 @@ class Product(models.Model):
 
 class Order(models.Model):
     customer = models.ForeignKey(Customer, on_delete=models.SET_NULL, blank=True, null=True)
-    date_orderd = models.DateTimeField(auto_now_add=True)
+    date_orderd = models.DateTimeField(auto_now=True)
     complete = models.BooleanField(default=False)
 
     def __str__(self):
@@ -56,6 +61,16 @@ class CartItems(models.Model):
     
     def __str__(self):
         return str(self.id)
+
+
+class Shipping_Order(models.Model):
+    order = models.OneToOneField(Order, on_delete=models.SET_NULL, blank=True, null=True)
+    shippingAddress = models.CharField(max_length=350)
+
+    def __str__(self):
+        return str(self.order)
+    
+
     
 
 

@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block css_files %}
+<link rel="stylesheet" href="{% static 'store/css/product_order.css' %}">
+{% endblock css_files %}
+
+{% block title %}
+{{id}}
+{% endblock title %}
+
+{% block content %}
+<section id="place-order">
+<div class="order-content">
+    <h1>Your Order is Successfully Placed, Your Order Id is {{id}}</h1>
+    <h4>Thank You for Shopping!</h4>
+    <div class="continue-shopping">
+        <a href="{% url 'home' %}">Continue Shopping</a>
+    </div>
+</div>    
+    
+</section>
+{% endblock content %}

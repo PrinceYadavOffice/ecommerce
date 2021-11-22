@@ -1,17 +1,26 @@
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
 from django.http import JsonResponse
-from django.http.response import HttpResponse
 from django.shortcuts import redirect, render
-from django.urls import reverse
+from django.views.generic.base import View
 from .models import *
-from .forms import LoginForm,RegistrationForm,SetquantityForm
+from .forms import LoginForm,RegistrationForm
 from django.contrib.auth.decorators import login_required
 import json
 from django.db.models import Q
+from django.views.generic.list import ListView
+
 
 # Create your views here.
 
+class FilterProducts(ListView):
+    template_name = "store/index.html"
+    model = Product
+    context_object_name = "product"
+
+    def get_queryset(self):      
+        qs=self.kwargs['qs']  
+        return self.model.objects.all().order_by(f"{qs}")
 
 
 def index(request):
@@ -58,9 +67,14 @@ def checkout(request):
 def placeOrder(request, id):
     customer = request.user.customer
     order = Order.objects.get(customer=customer,id=id)
-    order.complete = True
+    order.complete = True    
+    shipping = Shipping_Order.objects.create(order=order, shippingAddress = customer.get_complete_address)    
+    shipping.save()
     order.save()
-    return HttpResponse(f"<h1>Thank You your order id is {id}")
+    context ={
+        'id':id
+    }
+    return render(request, 'store/place-order.html', context)
 
 @login_required(login_url='/login')
 def cart(request):
@@ -114,18 +128,19 @@ def user_logout(request):
 	return redirect("/")
 
 
-def product_detail(request, slug):
-       
-    product = Product.objects.get(slug=slug)    
-    status = "Available"
-    if product.total_units < 1 :
-        status = "Out Of Stock"
+class ProductDetail(View):
 
-    context={
-        'product':product,
-        'status':status        
-    }    
-    return render(request,'store/product_details.html', context)    
+    def get(self,request,slug):       
+        product = Product.objects.get(slug=slug)    
+        status = "Available"
+        if product.total_units < 1 :
+            status = "Out Of Stock"
+
+        context={
+            'product':product,
+            'status':status        
+        }    
+        return render(request,'store/product_details.html', context)    
 
 
 def updateItem(request):
@@ -149,14 +164,22 @@ def updateItem(request):
 
     if action == 'add' and cartItem[0].quantity < product.total_units:
         cartItem[0].quantity = (cartItem[0].quantity + 1)
+        product.total_units -= 1
     elif action == 'remove':
-        cartItem[0].quantity = (cartItem[0].quantity -1)       
+        cartItem[0].quantity = (cartItem[0].quantity -1)
+        product.total_units += 1       
 
-    cartItem[0].save() 
+    cartItem[0].save()
+    product.save() 
 
     if cartItem[0].quantity <=0:
-        cartItem[0].delete()  
+        cartItem[0].delete()
+        
     elif action == 'delete':
-        cartItem[0].delete()      
+        quantity = cartItem[0].quantity
+        cartItem[0].delete()
+        product.total_units +=quantity
+
+    product.save()          
 
     return JsonResponse('Item was added', safe=False)
