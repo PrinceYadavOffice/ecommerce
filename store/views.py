@@ -1,5 +1,6 @@
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
+from django.core.mail.message import EmailMultiAlternatives
 from django.http import JsonResponse
 from django.shortcuts import redirect, render
 from django.views.generic.base import View
@@ -93,9 +94,12 @@ class PlaceOrder(LoginRequiredMixin, View):
         items = order.cartitems_set.all()  
         subject = "Your Order is Placed | Online Shopping"
         toemail = customer.user.email        
-        context = {'order': order, 'items': items}    
+        context = {'order': order, 'items': items}
+        # html = get_template('store/orderemail.html')
+        # html_content = html.render(context)    
         message = render_to_string('store/orderemail.html', context)        
-        msg = EmailMessage(subject, message, settings.EMAIL_HOST_USER, to=[toemail,])
+        msg = EmailMessage(subject, message,settings.EMAIL_HOST_USER, to=[toemail,])
+        # msg.attach_alternative(html_content, 'text/html')
         msg.content_subtype = 'html'
         msg.send()
         
