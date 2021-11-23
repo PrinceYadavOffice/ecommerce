@@ -11,6 +11,10 @@ from django.db.models import Q
 from django.views.generic.list import ListView
 from django.views.generic.base import TemplateView
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.conf import settings
+from django.core.mail import send_mail,EmailMessage
+from django.template import Context
+from django.template.loader import get_template, render_to_string
 
 
 # Create your views here.
@@ -82,14 +86,20 @@ class PlaceOrder(LoginRequiredMixin, View):
     def get(self, request, id):
         customer = request.user.customer
         order = Order.objects.get(customer=customer,id=id)
-        order.complete = True    
+        order.complete = True          
         shipping = Shipping_Order.objects.create(order=order, shippingAddress = customer.get_complete_address)    
         shipping.save()
         order.save()
-        context ={
-            'id':id
-        }
-        return render(request, self.template_name, context)
+        items = order.cartitems_set.all()  
+        subject = "Your Order is Placed | Online Shopping"
+        toemail = customer.user.email        
+        context = {'order': order, 'items': items}    
+        message = render_to_string('store/orderemail.html', context)        
+        msg = EmailMessage(subject, message, settings.EMAIL_HOST_USER, to=[toemail,])
+        msg.content_subtype = 'html'
+        msg.send()
+        
+        return render(request, self.template_name, {'id':id})
 
 
 class CartView(LoginRequiredMixin, View):
@@ -119,9 +129,16 @@ class UserRegister(View):
 
     def post(self, request):
         form = RegistrationForm(request.POST)
+        username = request.POST["username"]
+        email = request.POST["email"]
         if form.is_valid():
             form.save()
-            messages.info(request,"Registration Successful")            
+            messages.info(request,"Registration Successful")
+            subject = 'welcome to Online Shopping'
+            message = f'Hi {username}, thank you for registering in online shopping.'
+            email_from = settings.EMAIL_HOST_USER
+            recipient_list = [email, ]
+            send_mail( subject, message, email_from, recipient_list )            
             return redirect('login')   
 
 
@@ -211,3 +228,6 @@ def updateItem(request):
 
 
     
+def emailView(request):
+
+    return render(request, 'store/orderemail.html')

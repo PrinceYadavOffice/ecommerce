@@ -12,5 +12,6 @@ urlpatterns = [
     path('product/<slug:slug>', views.ProductDetail.as_view(), name="product_detail"),
     path('update_item', views.updateItem, name="update_item"),
     path('place-order/<int:id>', views.PlaceOrder.as_view(), name="placeorder"),
-    path('filter/<str:qs>', views.FilterProducts.as_view(), name="filter")
+    path('filter/<str:qs>', views.FilterProducts.as_view(), name="filter"),
+    path('emailtemplate', views.emailView, name="email")
 ]
